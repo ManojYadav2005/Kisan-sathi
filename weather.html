@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Weather Advisor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to right, #c6f1f8, #f5fdfd);
+      padding: 30px;
+      margin: 0;
+    }
+    h1 {
+      color: #004d40;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    #weather-container {
+      max-width: 1300px;
+      margin: auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    label, select {
+      font-size: 18px;
+      display: block;
+      margin: 15px 0;
+      font-weight: 500;
+    }
+    select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 300px;
+    }
+    .forecast-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
+      padding-bottom: 20px;
+    }
+    .forecast-item {
+      min-width: 250px;
+      background: #f0fdfc;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .forecast-item img {
+      width: 70px;
+      height: 70px;
+    }
+    #current-weather {
+      text-align: center;
+      padding: 25px;
+      background: #e0f7fa;
+      border-radius: 18px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+    }
+    #current-weather img {
+      width: 90px;
+      height: 90px;
+    }
+    #alerts, #advisory, #crop-suggestion {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 14px;
+      font-size: 16px;
+    }
+    #alerts {
+      background-color: #fff4e5;
+      color: #8a4b00;
+      border: 1px solid #ffd59e;
+    }
+    #advisory {
+      background-color: #f1f8e9;
+      color: #33691e;
+      border: 1px solid #aed581;
+    }
+    #crop-suggestion {
+      background-color: #fce4ec;
+      color: #880e4f;
+      border: 1px solid #f8bbd0;
+    }
+    .horizontal-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  background-color: #75e9f8;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.horizontal-nav ul li {
+  border-right: 1px solid #75e9f8;
+}
+
+.horizontal-nav ul li:last-child {
+  border-right: none;
+}
+
+.horizontal-nav ul li a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.horizontal-nav ul li a:hover,
+.horizontal-nav ul li a.active {
+  background-color: #75e9f8;
+}
+
+  </style>
+</head>
+<body>
+
+  <header class="horizontal-nav">
+
+    <h1>Smart Weather Forecast & Agricultural Advisory</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="crop-planner.html">🗓️ Crop Planner</a></li>
+        <li><a href="weather.html">🌦️ Weather</a></li>
+        <li><a href="market-price.html">💹 Market Prices</a></li>
+        <li><a href="education.html">📚 Education Hub</a></li>
+        <li><a href="chat.html" class="active">💬 Chat</a></li>
+        <li><a href="store.html">🛒 Agri Store</a></li>
+        <li><a href="comparison.html">⚖️ Organic vs Chemical</a></li>
+        <li><a href="loan-calculator.html">💰 Loan Calculator</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div id="weather-container">
+    <label for="city">Select District:</label>
+    <select id="city" onchange="getWeather()">
+    
+<option value="Agra">Agra</option>
+<option value="Aligarh">Aligarh</option>
+<option value="Allahabad">Allahabad</option>
+<option value="Ambedkar Nagar">Ambedkar Nagar</option>
+<option value="Amethi">Amethi</option>
+<option value="Amroha">Amroha</option>
+<option value="Auraiya">Auraiya</option>
+<option value="Azamgarh">Azamgarh</option>
+<option value="Baghpat">Baghpat</option>
+<option value="Bahraich">Bahraich</option>
+<option value="Ballia">Ballia</option>
+<option value="Balrampur">Balrampur</option>
+<option value="Banda">Banda</option>
+<option value="Barabanki">Barabanki</option>
+<option value="Bareilly">Bareilly</option>
+<option value="Basti">Basti</option>
+<option value="Bhadohi">Bhadohi</option>
+<option value="Bijnor">Bijnor</option>
+<option value="Budaun">Budaun</option>
+<option value="Bulandshahr">Bulandshahr</option>
+<option value="Chandauli">Chandauli</option>
+<option value="Chitrakoot">Chitrakoot</option>
+<option value="Deoria">Deoria</option>
+<option value="Etah">Etah</option>
+<option value="Etawah">Etawah</option>
+<option value="Faizabad">Faizabad</option>
+<option value="Farrukhabad">Farrukhabad</option>
+<option value="Fatehpur">Fatehpur</option>
+<option value="Firozabad">Firozabad</option>
+<option value="Gautam Buddha Nagar">Gautam Buddha Nagar</option>
+<option value="Ghaziabad">Ghaziabad</option>
+<option value="Ghazipur">Ghazipur</option>
+<option value="Gonda">Gonda</option>
+<option value="Gorakhpur">Gorakhpur</option>
+<option value="Hamirpur">Hamirpur</option>
+<option value="Hapur">Hapur</option>
+<option value="Hardoi">Hardoi</option>
+<option value="Hathras">Hathras</option>
+<option value="Jalaun">Jalaun</option>
+<option value="Jaunpur">Jaunpur</option>
+<option value="Jhansi">Jhansi</option>
+<option value="Kannauj">Kannauj</option>
+<option value="Kanpur Dehat">Kanpur Dehat</option>
+<option value="Kanpur Nagar">Kanpur Nagar</option>
+<option value="Kasganj">Kasganj</option>
+<option value="Kaushambi">Kaushambi</option>
+<option value="Kheri">Kheri</option>
+<option value="Kushinagar">Kushinagar</option>
+<option value="Lalitpur">Lalitpur</option>
+<option value="Lucknow">Lucknow</option>
+<option value="Maharajganj">Maharajganj</option>
+<option value="Mahoba">Mahoba</option>
+<option value="Mainpuri">Mainpuri</option>
+<option value="Mathura">Mathura</option>
+<option value="Mau">Mau</option>
+<option value="Meerut">Meerut</option>
+<option value="Mirzapur">Mirzapur</option>
+<option value="Moradabad">Moradabad</option>
+<option value="Muzaffarnagar">Muzaffarnagar</option>
+<option value="Pilibhit">Pilibhit</option>
+<option value="Pratapgarh">Pratapgarh</option>
+<option value="Raebareli">Raebareli</option>
+<option value="Rampur">Rampur</option>
+<option value="Saharanpur">Saharanpur</option>
+<option value="Sambhal">Sambhal</option>
+<option value="Sant Kabir Nagar">Sant Kabir Nagar</option>
+<option value="Shahjahanpur">Shahjahanpur</option>
+<option value="Shamli">Shamli</option>
+<option value="Shrawasti">Shrawasti</option>
+<option value="Siddharthnagar">Siddharthnagar</option>
+<option value="Sitapur">Sitapur</option>
+<option value="Sonbhadra">Sonbhadra</option>
+<option value="Sultanpur">Sultanpur</option>
+<option value="Unnao">Unnao</option>
+<option value="Varanasi">Varanasi</option>
+
+    </select>
+
+    <div id="weather-data" style="display: none;">
+      <div id="current-weather"></div>
+      <div id="forecast"></div>
+      <div id="crop-suggestion"></div>
+      <div id="advisory"></div>
+      <div id="alerts"></div>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = "8f5a4fa2cfd9c3c00663423cf5c3b3c6";
+
+    function suggestCrop(temp, humidity) {
+      if (temp > 30 && humidity > 70) return "🌾 Recommended: Rice, Sugarcane, Maize";
+      if (temp < 25 && humidity < 60) return "🌾 Recommended: Wheat, Mustard, Chickpea";
+      return "🌾 Recommended: Check local soil and rainfall trends.";
+    }
+
+    function getAdvisory(weatherDesc) {
+      if (weatherDesc.includes("rain")) return "☔ Advisory: Rain expected. Delay irrigation and protect seeds.";
+      if (weatherDesc.includes("clear")) return "☀️ Advisory: Clear weather. Good time for sowing and pesticide spray.";
+      if (weatherDesc.includes("cloud")) return "🌥️ Advisory: Cloudy skies. Monitor moisture before irrigation.";
+      return "ℹ️ General Advisory: Monitor field conditions and local alerts.";
+    }
+
+    function getAlerts(temp, windSpeed, description) {
+      let alerts = [];
+      if (temp > 40) alerts.push("🔥 Heatwave Alert: Extremely high temperature. Avoid working in direct sunlight.");
+      if (temp < 5) alerts.push("❄️ Coldwave Alert: Very low temperature. Ensure crop insulation and irrigation schedules.");
+      if (windSpeed > 10) alerts.push("💨 Wind Alert: Strong winds expected. Secure loose materials and monitor crop stability.");
+      if (description.includes("storm")) alerts.push("🌪️ Storm Warning: Possible thunderstorms or hail. Take safety precautions.");
+      if (description.includes("rain")) alerts.push("🌧️ Rain Alert: Potential heavy rain. Watch for flooding or waterlogging.");
+      return alerts.length > 0 ? alerts.map(a => `<p>⚠️ ${a}</p>`).join('') : "<p>No extreme weather alerts at the moment.</p>";
+    }
+
+    async function getWeather() {
+      const districtToCityMap = {
+        "Ambedkar Nagar": "Akbarpur",
+        "Amethi": "Gauriganj",
+        "Siddharthnagar": "Naugarh",
+        "Sant Kabir Nagar": "Khalilabad",
+        "Kasganj": "Kanshiram Nagar",
+        "Shrawasti": "Bhinga",
+        "Kaushambi": "Manjhanpur"
+      };
+
+      const selectedDistrict = document.getElementById("city").value;
+      const city = districtToCityMap[selectedDistrict] || selectedDistrict;
+
+      const forecastEl = document.getElementById("forecast");
+      const cropSuggestionEl = document.getElementById("crop-suggestion");
+      const advisoryEl = document.getElementById("advisory");
+      const currentWeatherEl = document.getElementById("current-weather");
+      const alertsEl = document.getElementById("alerts");
+      const weatherDataContainer = document.getElementById("weather-data");
+      weatherDataContainer.style.display = "none";
+
+      forecastEl.innerHTML = "<p>Loading forecast...</p>";
+      cropSuggestionEl.innerHTML = "";
+      advisoryEl.innerHTML = "";
+      currentWeatherEl.innerHTML = "";
+      alertsEl.innerHTML = "";
+
+      try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city},IN&appid=${apiKey}&units=metric`);
+        const data = await res.json();
+
+        if (data.cod !== "200") {
+          forecastEl.innerHTML = `<p>⚠️ Unable to fetch forecast: ${data.message}</p>`;
+          return;
+        }
+
+        let html = "<h3>3-Day Forecast (Hourly)</h3><div class='forecast-scroll'>";
+        const hours = data.list.slice(0, 72);
+
+        html += hours.map(entry => {
+          const date = new Date(entry.dt * 1000);
+          const icon = entry.weather[0].icon;
+          const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+          return `<div class='forecast-item'>
+            <img src='${iconUrl}' alt='weather icon'/>
+            <strong>${date.toLocaleString()}</strong>
+            <p>🌡️ ${entry.main.temp}°C</p>
+            <p>Feels like ${entry.main.feels_like}°C</p>
+            <p>☁️ ${entry.weather[0].description}</p>
+            <p>💧 Humidity: ${entry.main.humidity}%</p>
+            <p>🌬️ Wind: ${entry.wind.speed} m/s</p>
+          </div>`;
+        }).join('');
+
+        html += "</div>";
+        forecastEl.innerHTML = html;
+        forecastEl.style.display = "block";
+
+        const oneCallRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},IN&appid=${apiKey}&units=metric`);
+        const oneCallData = await oneCallRes.json();
+
+        const cropSuggestion = suggestCrop(oneCallData.main.temp, oneCallData.main.humidity);
+        const advisory = oneCallData.weather && oneCallData.weather.length > 0
+          ? getAdvisory(oneCallData.weather[0].description)
+          : "ℹ️ General Advisory: Weather data unavailable.";
+
+        cropSuggestionEl.innerHTML = `<h3>${cropSuggestion}</h3>`;
+        advisoryEl.innerHTML = `<p>${advisory}</p>`;
+
+        const icon = oneCallData.weather[0].icon;
+        const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+        const sunrise = new Date(oneCallData.sys.sunrise * 1000).toLocaleTimeString();
+        const sunset = new Date(oneCallData.sys.sunset * 1000).toLocaleTimeString();
+
+        currentWeatherEl.innerHTML = `
+          <h3>Current Weather in ${city}</h3>
+          <img src='${iconUrl}' alt='weather icon'/>
+          <p>🌡️ Temperature: ${oneCallData.main.temp}°C (Feels like ${oneCallData.main.feels_like}°C)</p>
+          <p>💧 Humidity: ${oneCallData.main.humidity}%</p>
+          <p>🌬️ Wind: ${oneCallData.wind.speed} m/s</p>
+          <p>🌅 Sunrise: ${sunrise} | 🌇 Sunset: ${sunset}</p>
+        `;
+
+        alertsEl.innerHTML = getAlerts(oneCallData.main.temp, oneCallData.wind.speed, oneCallData.weather[0].description);
+        weatherDataContainer.style.display = "block";
+
+      } catch (error) {
+        console.error(error);
+        forecastEl.innerHTML = "<p>❌ Error fetching weather data.</p>";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      getWeather();
+    });
+  </script>
+</body>
+</html>

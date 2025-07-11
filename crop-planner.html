@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Planner | Kisan Sathi</title>
+  <meta name="description" content="Kisan Sathi crop planner helps farmers select season-wise crops with farming tips, seed requirements, and cost estimation.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #f0f8ff;
+      color: #333;
+    }
+    header {
+      background-color: #2e8b57;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    h2 {
+      text-align: center;
+      color: #2e8b57;
+      font-size: 2rem;
+    }
+    p.description {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      color: #555;
+    }
+    form {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    select, button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #246b45;
+    }
+    .crop-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .crop-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      transition: transform 0.2s;
+    }
+    .crop-card:hover {
+      transform: scale(1.03);
+    }
+    .crop-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .crop-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+      color: #2e8b57;
+    }
+    .crop-details {
+      display: none;
+      margin-top: 0.5rem;
+      background: #f9f9f9;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    footer {
+      background-color: #2e8b57;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🚜 Kisan Sathi</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="crop-planner.html">🗓️ Crop Planner</a></li>
+        <li><a href="weather.html">🌦️ Weather</a></li>
+        <li><a href="market-price.html">💹 Market Prices</a></li>
+        <li><a href="education.html">📚 Education Hub</a></li>
+        <li><a href="chat.html" class="active">💬 Chat</a></li>
+        <li><a href="store.html">🛒 Agri Store</a></li>
+        <li><a href="comparison.html">⚖️ Organic vs Chemical</a></li>
+        <li><a href="loan-calculator.html">💰 Loan Calculator</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>🌾 Smart Crop Planner</h2>
+    <p class="description">Select a season to view best-suited crops with seed, irrigation & cost details.</p>
+
+    <form id="cropForm">
+      <select id="season" required>
+        <option value="">--Select Season--</option>
+        <option value="kharif">🌧️ Kharif (Jun–Oct)</option>
+        <option value="rabi">❄️ Rabi (Nov–Mar)</option>
+        <option value="zaid">🌤️ Zaid (Apr–Jun)</option>
+      </select>
+      <button type="submit">Show Crops</button>
+    </form>
+
+    <div class="crop-gallery" id="cropResults">Select a season to see results.</div>
+  </main>
+
+  <footer>
+    &copy; 2025 Kisan Sathi — Growing Smarter Together
+  </footer>
+
+
+
+  <script>
+    const crops = [
+      {
+        name: "🌾 Wheat",
+        image: "images/wheat.jpg",
+        season: "rabi",
+        id: "wheat",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 45 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2-3 times</li>
+            <li><strong>Spacing:</strong> 20 cm</li>
+            <li><strong>Sowing depth:</strong> 4-5 cm</li>
+            <li><strong>Irrigation:</strong> 2–4 times</li>
+            <li><strong>Cost:</strong> ₹1,800–₹2,000 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🥔 Potato",
+        image: "images/potato.jpg",
+        season: "rabi",
+        id: "potato",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 8 quintals per bigha</li>
+            <li><strong>Ploughing:</strong> 3-4 times</li>
+            <li><strong>Spacing:</strong> 60x20 cm</li>
+            <li><strong>Sowing depth:</strong> 5-6 cm</li>
+            <li><strong>Irrigation:</strong> 5–7 times</li>
+            <li><strong>Cost:</strong> ₹12,000–₹15,000 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🌻 Mustard",
+        image: "images/mustard.jpg",
+        season: "rabi",
+        id: "mustard",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 2.5 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2-3 times</li>
+            <li><strong>Spacing:</strong> 30 cm</li>
+            <li><strong>Sowing depth:</strong> 2-3 cm</li>
+            <li><strong>Irrigation:</strong> 1–2 times</li>
+            <li><strong>Cost:</strong> ₹1,000–₹1,500 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🌾 Paddy",
+        image: "images/paddy.jpg",
+        season: "kharif",
+        id: "paddy",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 30 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2-3 times</li>
+            <li><strong>Spacing:</strong> 20x15 cm</li>
+            <li><strong>Sowing depth:</strong> 2-3 cm</li>
+            <li><strong>Irrigation:</strong> Standing water</li>
+            <li><strong>Cost:</strong> ₹2,500–₹3,000 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🌽 Maize",
+        image: "images/maize.jpg",
+        season: "kharif",
+        id: "maize",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 8 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2-3 times</li>
+            <li><strong>Spacing:</strong> 60x20 cm</li>
+            <li><strong>Sowing depth:</strong> 4-5 cm</li>
+            <li><strong>Irrigation:</strong> 3–4 times</li>
+            <li><strong>Cost:</strong> ₹1,500–₹2,000 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🌾 Bajra",
+        image: "images/bajra.jpg",
+        season: "kharif",
+        id: "bajra",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 3 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2 times</li>
+            <li><strong>Spacing:</strong> 45x10 cm</li>
+            <li><strong>Sowing depth:</strong> 2-3 cm</li>
+            <li><strong>Irrigation:</strong> Rainfed / 1–2 times</li>
+            <li><strong>Cost:</strong> ₹800–₹1,200 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🍉 Watermelon",
+        image: "images/watermelon.jpg",
+        season: "zaid",
+        id: "watermelon",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 1 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2-3 times</li>
+            <li><strong>Spacing:</strong> 2x0.6 m</li>
+            <li><strong>Sowing depth:</strong> 2-3 cm</li>
+            <li><strong>Irrigation:</strong> 5–6 times</li>
+            <li><strong>Cost:</strong> ₹3,000–₹4,000 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🍈 Muskmelon",
+        image: "images/muskmelon.jpg",
+        season: "zaid",
+        id: "muskmelon",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 1 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 2-3 times</li>
+            <li><strong>Spacing:</strong> 1.5x0.6 m</li>
+            <li><strong>Sowing depth:</strong> 2-3 cm</li>
+            <li><strong>Irrigation:</strong> 5–6 times</li>
+            <li><strong>Cost:</strong> ₹3,000–₹4,000 per bigha</li>
+          </ul>`
+      },
+      {
+        name: "🧅 Onion",
+        image: "images/onion.jpg",
+        season: "zaid",
+        id: "onion",
+        details: `
+          <ul>
+            <li><strong>Seed required:</strong> 5 kg per bigha</li>
+            <li><strong>Ploughing:</strong> 3-4 times</li>
+            <li><strong>Spacing:</strong> 15x10 cm</li>
+            <li><strong>Sowing depth:</strong> 1-2 cm</li>
+            <li><strong>Irrigation:</strong> 7–8 times</li>
+            <li><strong>Cost:</strong> ₹6,000–₹8,000 per bigha</li>
+          </ul>`
+      }
+    ];
+
+    const form = document.getElementById("cropForm");
+    const resultsDiv = document.getElementById("cropResults");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const season = document.getElementById("season").value;
+      resultsDiv.innerHTML = "";
+
+      const filtered = crops.filter(c => c.season === season);
+
+      if (filtered.length === 0) {
+        resultsDiv.innerHTML = "<p>No crops found for this season.</p>";
+        return;
+      }
+
+      filtered.forEach(crop => {
+        const card = document.createElement("div");
+        card.className = "crop-card";
+        card.innerHTML = `
+          <h3>${crop.name}</h3>
+          <img src="${crop.image}" alt="${crop.name}" onclick="toggleDetails('${crop.id}')">
+          <div class="crop-details" id="${crop.id}">${crop.details}</div>
+        `;
+        resultsDiv.appendChild(card);
+      });
+    });
+
+    function toggleDetails(id) {
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+  <script> src="script.js"</script>
+</body>
+</html>

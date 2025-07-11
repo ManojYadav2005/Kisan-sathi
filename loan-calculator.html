@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loan Calculator | Kisan Sathi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f8ff;
+      padding: 0;
+    }
+
+    header, footer {
+      background: #2e8b57;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e8b57;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      width: 48%;
+      padding: 0.75rem;
+      background: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #246b45;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .results {
+      margin-top: 2rem;
+      background: #f1fdf2;
+      padding: 1rem;
+      border-left: 5px solid #2e8b57;
+      border-radius: 6px;
+    }
+
+    .tips {
+      margin-top: 2rem;
+      background: #fff8e1;
+      padding: 1rem;
+      border-left: 5px solid #f9a825;
+      border-radius: 6px;
+    }
+
+    .chart {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kisan Sathi — Loan Calculator</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="crop-planner.html">🗓️ Crop Planner</a></li>
+        <li><a href="weather.html">🌦️ Weather</a></li>
+        <li><a href="market-price.html">💹 Market Prices</a></li>
+        <li><a href="education.html">📚 Education Hub</a></li>
+        <li><a href="chat.html" class="active">💬 Chat</a></li>
+        <li><a href="store.html">🛒 Agri Store</a></li>
+        <li><a href="comparison.html">⚖️ Organic vs Chemical</a></li>
+        <li><a href="loan-calculator.html">💰 Loan Calculator</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Loan EMI Calculator</h2>
+
+    <label for="purpose">Loan Purpose:</label>
+    <select id="purpose">
+      <option value="Crop Loan">Crop Loan</option>
+      <option value="Tractor Purchase">Tractor Purchase</option>
+      <option value="Irrigation Setup">Irrigation Setup</option>
+      <option value="Fertilizer Purchase">Fertilizer Purchase</option>
+    </select>
+
+    <label for="amount">Loan Amount (₹):</label>
+    <input type="number" id="amount" placeholder="Enter loan amount" />
+
+    <label for="interest">Interest Rate (% per year):</label>
+    <input type="number" id="interest" placeholder="e.g. 8" step="0.01" />
+
+    <label for="duration">Loan Duration (in years):</label>
+    <input type="number" id="duration" placeholder="e.g. 5" />
+
+    <div class="button-row">
+      <button onclick="calculateEMI()">Calculate EMI</button>
+      <button onclick="resetForm()">Reset</button>
+    </div>
+
+    <div class="results" id="results" style="display: none;">
+      <h3>Results:</h3>
+      <p><strong>Monthly EMI:</strong> ₹<span id="emi"></span></p>
+      <p><strong>Total Interest Payable:</strong> ₹<span id="interestPayable"></span></p>
+      <p><strong>Total Amount Payable:</strong> ₹<span id="totalPayable"></span></p>
+    </div>
+
+    <div class="chart" id="chartContainer" style="display: none;">
+      <canvas id="emiChart"></canvas>
+    </div>
+
+    <div class="tips">
+      <h3>💡 Smart Tips</h3>
+      <ul>
+        <li>Try increasing loan duration to lower monthly EMI.</li>
+        <li>Check Kisan Credit Card (KCC) benefits for lower rates.</li>
+        <li>Use EMI to plan crop cycles and sales.</li>
+        <li>Include insurance in total costs for tractor/asset loans.</li>
+      </ul>
+    </div>
+    <section style="background:#f0fff4;padding:2rem;">
+        <h2 style="color:#2e8b57;">Government Schemes for Farmers</h2>
+        <ul style="list-style:none;padding:0;font-size:1.1rem;">
+          <li><a href="https://pmkisan.gov.in" target="_blank">🌾 PM-Kisan Samman Nidhi Yojana</a></li>
+          <li><a href="https://pmfby.gov.in" target="_blank">🌧️ PMFBY (Fasal Bima Yojana)</a></li>
+          <li><a href="https://enam.gov.in" target="_blank">🛒 eNAM – Online Agri Market</a></li>
+          <li><a href="https://agmarknet.gov.in" target="_blank">📈 Agmarknet – Market Prices</a></li>
+          <li><a href="https://soilhealth.dac.gov.in" target="_blank">🧪 Soil Health Card</a></li>
+        </ul>
+      </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Kisan Sathi. Empowering Farmers with Technology.</p>
+  </footer>
+
+  <!-- ✅ Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- ✅ EMI Calculator Script -->
+  <script>
+
+
+    function calculateEMI() {
+      const P = parseFloat(document.getElementById('amount').value);
+      const r = parseFloat(document.getElementById('interest').value) / 12 / 100;
+      const n = parseInt(document.getElementById('duration').value) * 12;
+
+      if (isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || r < 0 || n <= 0) {
+        alert("Please enter valid loan details.");
+        return;
+      }
+
+      const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      const totalPayable = emi * n;
+      const interestPayable = totalPayable - P;
+
+      document.getElementById("emi").innerText = emi.toFixed(2);
+      document.getElementById("interestPayable").innerText = interestPayable.toFixed(2);
+      document.getElementById("totalPayable").innerText = totalPayable.toFixed(2);
+      document.getElementById("results").style.display = 'block';
+
+      drawChart(P, interestPayable);
+    }
+
+    function resetForm() {
+      document.getElementById('amount').value = '';
+      document.getElementById('interest').value = '';
+      document.getElementById('duration').value = '';
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('chartContainer').style.display = 'none';
+    }
+
+    function drawChart(principal, interest) {
+      document.getElementById("chartContainer").style.display = 'block';
+      const ctx = document.getElementById('emiChart').getContext('2d');
+
+      if (window.emiChart) {
+        window.emiChart.destroy();
+      }
+
+      window.emiChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Principal', 'Interest'],
+          datasets: [{
+            data: [principal, interest],
+            backgroundColor: ['#2e8b57', '#f9a825']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

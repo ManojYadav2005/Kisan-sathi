@@ -1,0 +1,1324 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Education & Crop Guide - Kisan Sathi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header, footer {
+      background-color: #2e8b57;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      color: #2e7d32;
+      margin-top: 2rem;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+    .filters input,
+    .filters select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .crop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .card h3 {
+      margin: 0.5rem 0;
+      color: #2e8b57;
+    }
+    ul {
+      padding-left: 1.2rem;
+      line-height: 1.6;
+    }
+    a {
+      color: #1E90FF;
+      text-decoration: none;
+    }
+    .pagination {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .pagination button {
+      margin: 0 5px;
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #2e8b57;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .video-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .video-row iframe {
+      width: 32%;
+      height: 210px;
+      border-radius: 9px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .horizontal-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  background-color: #2e8b57;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.horizontal-nav ul li {
+  border-right: 1px solid #2e8b57;
+}
+
+.horizontal-nav ul li:last-child {
+  border-right: none;
+}
+
+.horizontal-nav ul li a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.horizontal-nav ul li a:hover,
+.horizontal-nav ul li a.active {
+  background-color: #2e8b57;
+}
+
+  </style>
+</head>
+<body>
+  
+  <header class="horizontal-nav">
+    <h1>📘 Education & Crop Guide - Kisan Sathi</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="crop-planner.html">🗓️ Crop Planner</a></li>
+        <li><a href="weather.html">🌦️ Weather</a></li>
+        <li><a href="market-price.html">💹 Market Prices</a></li>
+        <li><a href="education.html">📚 Education Hub</a></li>
+        <li><a href="chat.html" class="active">💬 Chat</a></li>
+        <li><a href="store.html">🛒 Agri Store</a></li>
+        <li><a href="comparison.html">⚖️ Organic vs Chemical</a></li>
+        <li><a href="loan-calculator.html">💰 Loan Calculator</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>🌾 Step-by-Step Crop Guides:</h2>
+      <div class="filters">
+        <input type="text" id="nameFilter" placeholder="Search crop by name..." />
+        <select id="seasonFilter">
+          <option value="">Filter by season</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Kharif">Kharif</option>
+        </select>
+      </div>
+      <div class="crop-grid" id="cropList"></div>
+      <div class="pagination" id="paginationControls"></div>
+    </section>
+
+    <section>
+      <h2>🏛️ Government Schemes & Subsidies</h2>
+      <ul>
+        <li><a href="https://pmkisan.gov.in/" target="_blank"><strong>PM-Kisan Samman Nidhi</strong></a>: ₹6,000/year support to farmers</li>
+        <li><a href="https://soilhealth.dac.gov.in/" target="_blank"><strong>Soil Health Card Scheme</strong></a>: For soil testing and nutrients info</li>
+        <li><a href="https://www.enam.gov.in/" target="_blank"><strong>eNAM</strong></a>: Online marketplace for crop selling</li>
+        <li><a href="https://agricoop.gov.in/" target="_blank"><strong>National Agriculture Market</strong></a>: Unified market platform</li>
+        <li><a href="https://pmfby.gov.in/" target="_blank"><strong>PM Fasal Bima Yojana</strong></a>: Crop insurance for farmers</li>
+      </ul>
+    </section>
+
+    <section class="video-section">
+      <h2>📺 Farming Tutorials</h2>
+    
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/6PxwFePEnNU" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/AF-jzWKMdwE" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/F4Az6C2rsic" allowfullscreen></iframe>
+      </div>
+      
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/lMkPcx6ijbg" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Ulf8E1XnhgI" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/yrjVrFgoAfA" allowfullscreen></iframe>
+      </div>
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/hDTwuO9PHp8" allowfullscreen></iframe> 
+        <iframe src="https://www.youtube.com/embed/pxO-Cr3ouuQ" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/gpRFP4ZxnZs" allowfullscreen></iframe> 
+      </div>
+      
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/o0Lwn0fSmqc" allowfullscreen></iframe> 
+        <iframe src="https://www.youtube.com/embed/ECE_S2LMwBc" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Pl1zFD7aAtI" allowfullscreen></iframe> 
+      </div>
+
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/0US13rBCa5I" allowfullscreen></iframe> 
+        <iframe src="https://www.youtube.com/embed/Uo05345F1C8" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/PubKH1YDaZs" allowfullscreen></iframe> 
+      </div>
+
+      <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/qwKc13R-bMc" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/EKNP488UswU" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/AC_zGbmuFz0" allowfullscreen></iframe> 
+    </div>
+
+    <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/FZWxT-swtGY" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/iqNAvQsRl14" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/NjzDkySYy6Y" allowfullscreen></iframe> 
+    </div>
+
+    <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/Qkeo-OCX0Io" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/z5J-CDBpNZE" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/HbdG29Y6apU" allowfullscreen></iframe> 
+    </div>
+
+    <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/9blKZSihu28" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/ZA8nkyKvZdw" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/2CGq_DROO0c" allowfullscreen></iframe> 
+    </div>
+     
+    </section>
+
+   
+  </main>
+
+  <footer>
+    &copy; 2025 Kisan Sathi | Empowering Farmers Digitally
+  </footer>
+
+  <script>
+
+const crops = [
+      {name:'Wheat', sow:'Rabi (Nov–Dec)', fert:'Urea & DAP; 2–4 irrigations', pest:'Rust, aphids — use Mancozeb & Neem Spray', harvest:'Grains hard & moisture < 20%', image: './images/Wheat.jpg'},
+      {name:'Paddy', sow:'Kharif (June–July)', fert:'Urea, Potash; standing water required', pest:'Brown Plant Hopper — Chlorpyrifos', harvest:'Golden-yellow stage',image: './images/paddy.jpg'},
+      {name:'Maize', sow:'Kharif & Rabi', fert:'Urea, NPK; moderate watering', pest:'Stem borers — Neem oil spray', harvest:'Cobs fully developed',image: './images/maize.jpg'},
+      {name:'Sugarcane', sow:'Feb–March & Sep–Oct', fert:'High NPK + micronutrients', pest:'Borers, white grub', harvest:'10–12 months after planting',image: './guide/sugarcane.jpg'},
+      {name:'Potato', sow:'Rabi (Oct–Nov)', fert:'FYM + Urea; water every 10 days', pest:'Blight — Mancozeb spray', harvest:'Leaves yellow',image: './images/Potato.jpg'},
+      {name:'Tomato', sow:'Oct–Nov or Feb–March', fert:'Organic + NPK; regular water', pest:'Leaf curl, fruit borer', harvest:'Red ripe fruits',image: './guide/tomato.jpg'},
+      {name:'Onion', sow:'Nov–Dec', fert:'DAP, Potash, organic manure', pest:'Thrips, fungal rot', harvest:'Neck bent stage',image: './images/Onion.jpg'},
+      {name:'Garlic', sow:'Oct–Nov', fert:'Phosphorus rich manure', pest:'Nematodes, rot fungi', harvest:'Yellowing tops',image:'./guide/garlic.jpg'},
+      {name:'Peas', sow:'Rabi (Nov)', fert:'Organic + minimal Urea', pest:'Aphids, powdery mildew', harvest:'Green pods mature',image:'./guide/peas.jpg'},
+      {name:'Mustard', sow:'Rabi (Oct–Nov)', fert:'Low nitrogen, more potassium', pest:'Aphids, blight', harvest:'Pods yellow & dry',image:'./guide/Mustard.jpg'},
+      {name:'Barley', sow:'Rabi (Nov)', fert:'Minimal NPK', pest:'Rust, smut', harvest:'Hard dough stage',image:'./guide/barley.jpg'},
+      {name:'Chickpea (Gram)', sow:'Rabi (Oct)', fert:'Phosphorus rich + Rhizobium', pest:'Pod borer, wilt', harvest:'Pods turn brown',image:'./guide/chickpea.jpg'},
+      {name:'Brinjal', sow:'Summer & Rainy', fert:'NPK + FYM', pest:'Shoot borer, whiteflies', harvest:'Bright purple fruits',image:'./guide/brinjal.jpeg'},
+      {name:'Cauliflower', sow:'Oct–Dec', fert:'Nitrogen & boron', pest:'Cabbage looper', harvest:'Compact white curd',image:'./guide/Cauliflower.jpg'},
+      {name:'Cabbage', sow:'Winter', fert:'Urea, potassium', pest:'Diamondback moth', harvest:'Tight firm heads',image:'./guide/Cabbage.jpg'},
+      {name:'Ladyfinger (Bhindi)', sow:'Summer/Kharif', fert:'FYM + light NPK', pest:'Jassids, mites', harvest:'Tender pods',image:'./guide/Ladyfinger.jpg'},
+      {name:'Bottle Gourd', sow:'Feb–March', fert:'Compost + NPK', pest:'Fruit fly, mildew', harvest:'Soft tender gourds',image:'./guide/BottleGourd.jpg'},
+      {name:'Spinach', sow:'Winter', fert:'FYM + phosphorus', pest:'Leaf spot, damping-off', harvest:'Young green leaves',image:'./guide/Spinach.jpg'},
+      {name:'Coriander', sow:'Oct–Nov', fert:'Low NPK + organic', pest:'Aphids, wilt', harvest:'Leaves full size',image:'./guide/Coriander.jpg'},
+      {name:'Fenugreek (Methi)', sow:'Rabi (Oct)', fert:'Organic manure', pest:'Root rot', harvest:'25–30 days after sowing',image:'./guide/Fenugreek.jpg'},
+      {name:'Lentil (Masoor)', sow:'Rabi (Nov)', fert:'Low N, high P', pest:'Wilt, aphids', harvest:'Pods dry',image:'./guide/Lentil.jpg'},
+      {name:'Turmeric', sow:'June–July', fert:'Cow dung + potash', pest:'Rhizome rot', harvest:'8–9 months later',image:'./guide/Turmeric.jpg'},
+      {name:'Sorghum (Jowar)', sow:'Kharif & Rabi', fert:'Moderate NPK', pest:'Shoot fly', harvest:'Hard dough stage',image:'./guide/Sorghum(Jowar).jpg'},
+      {name:'Soybean', sow:'Kharif (June)', fert:'Rhizobium + phosphorus', pest:'Leaf spot, pod borer', harvest:'Pods turn brown',image:'./guide/Soybean.jpg'}
+    ];
+   
+   
+const nameFilter = document.getElementById('nameFilter');
+const seasonFilter = document.getElementById('seasonFilter');
+const cropList = document.getElementById('cropList');
+const paginationControls = document.getElementById('paginationControls');
+
+let currentPage = 1;
+const cropsPerPage = 4;
+
+// 🧠 Extract season from 'sow' field
+function getSeason(crop) {
+  if (crop.sow.includes('Rabi')) return 'Rabi';
+  if (crop.sow.includes('Kharif')) return 'Kharif';
+  if (crop.sow.includes('Zaid')) return 'Zaid';
+  return '';
+}
+
+function filterCrops() {
+  const nameValue = nameFilter.value.toLowerCase();
+  const seasonValue = seasonFilter.value;
+
+  return crops.filter(crop => {
+    const matchesName = crop.name.toLowerCase().includes(nameValue);
+    const matchesSeason = !seasonValue || getSeason(crop).includes(seasonValue);
+    return matchesName && matchesSeason;
+  });
+}
+
+function renderCrops() {
+  const filtered = filterCrops();
+  const start = (currentPage - 1) * cropsPerPage;
+  const end = start + cropsPerPage;
+  const currentCrops = filtered.slice(start, end);
+
+  cropList.innerHTML = currentCrops.map(crop => `
+    <div class="card">
+      <img src="${crop.image}" alt="${crop.name}">
+      <h3>${crop.name}</h3>
+      <ul>
+        <li><strong>Sowing:</strong> ${crop.sow}</li>
+        <li><strong>Fertilizer:</strong> ${crop.fert}</li>
+        <li><strong>Pest Control:</strong> ${crop.pest}</li>
+        <li><strong>Harvest:</strong> ${crop.harvest}</li>
+      </ul>
+    </div>
+  `).join('');
+
+  renderPagination(filtered.length);
+}
+
+function renderPagination(totalCrops) {
+  const totalPages = Math.ceil(totalCrops / cropsPerPage);
+  paginationControls.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === currentPage) btn.disabled = true;
+
+    btn.addEventListener('click', () => {
+      currentPage = i;
+      renderCrops();
+    });
+
+    paginationControls.appendChild(btn);
+  }
+}
+
+nameFilter.addEventListener('input', () => {
+  currentPage = 1;
+  renderCrops();
+});
+
+seasonFilter.addEventListener('change', () => {
+  currentPage = 1;
+  renderCrops();
+});
+
+renderCrops();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Education & Crop Guide - Kisan Sathi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f9f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header, footer {
+      background-color: #4caf50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      color: #2e7d32;
+      margin-top: 2rem;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+    .filters input, .filters select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .crop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .card h3 {
+      margin: 0.5rem 0;
+      color: #2e7d32;
+    }
+    .pagination {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .pagination button {
+      margin: 0 5px;
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      background-color: #ccc;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📘 Education & Crop Guide - Kisan Sathi</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>🌾 Step-by-Step Crop Guides (25 Crops)</h2>
+      <div class="filters">
+        <input type="text" id="nameFilter" placeholder="Search crop by name..." />
+        <select id="seasonFilter">
+          <option value="">Filter by season</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Kharif">Kharif</option>
+          <option value="Zaid">Zaid</option>
+        </select>
+      </div>
+
+      <div class="crop-grid" id="cropList"></div>
+      <div class="pagination" id="paginationControls"></div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Kisan Sathi | Empowering Farmers Digitally
+  </footer>
+
+  <script>
+ const crops = [
+      {name:'Wheat', sow:'Rabi (Nov–Dec)', fert:'Urea & DAP; 2–4 irrigations', pest:'Rust, aphids — use Mancozeb & Neem Spray', harvest:'Grains hard & moisture < 20%', image: './images/Wheat.jpg'},
+      {name:'Paddy', sow:'Kharif (June–July)', fert:'Urea, Potash; standing water required', pest:'Brown Plant Hopper — Chlorpyrifos', harvest:'Golden-yellow stage',image: './images/paddy.jpg'},
+      {name:'Maize', sow:'Kharif & Rabi', fert:'Urea, NPK; moderate watering', pest:'Stem borers — Neem oil spray', harvest:'Cobs fully developed',image: './images/maize.jpg'},
+      {name:'Sugarcane', sow:'Feb–March & Sep–Oct', fert:'High NPK + micronutrients', pest:'Borers, white grub', harvest:'10–12 months after planting',image: './guide/sugarcane.jpg'},
+      {name:'Potato', sow:'Rabi (Oct–Nov)', fert:'FYM + Urea; water every 10 days', pest:'Blight — Mancozeb spray', harvest:'Leaves yellow',image: './images/Potato.jpg'},
+      {name:'Tomato', sow:'Oct–Nov or Feb–March', fert:'Organic + NPK; regular water', pest:'Leaf curl, fruit borer', harvest:'Red ripe fruits',image: './guide/tomato.jpg'},
+      {name:'Onion', sow:'Nov–Dec', fert:'DAP, Potash, organic manure', pest:'Thrips, fungal rot', harvest:'Neck bent stage',image: './images/Onion.jpg'},
+      {name:'Garlic', sow:'Oct–Nov', fert:'Phosphorus rich manure', pest:'Nematodes, rot fungi', harvest:'Yellowing tops',image:'./guide/garlic.jpg'},
+      {name:'Peas', sow:'Rabi (Nov)', fert:'Organic + minimal Urea', pest:'Aphids, powdery mildew', harvest:'Green pods mature',image:'./guide/peas.jpg'},
+      {name:'Mustard', sow:'Rabi (Oct–Nov)', fert:'Low nitrogen, more potassium', pest:'Aphids, blight', harvest:'Pods yellow & dry',image:'./guide/Mustard.jpg'},
+      {name:'Barley', sow:'Rabi (Nov)', fert:'Minimal NPK', pest:'Rust, smut', harvest:'Hard dough stage',image:'./guide/barley.jpg'},
+      {name:'Chickpea (Gram)', sow:'Rabi (Oct)', fert:'Phosphorus rich + Rhizobium', pest:'Pod borer, wilt', harvest:'Pods turn brown',image:'./guide/chickpea.jpg'},
+      {name:'Brinjal', sow:'Summer & Rainy', fert:'NPK + FYM', pest:'Shoot borer, whiteflies', harvest:'Bright purple fruits',image:'./guide/brinjal.jpeg'},
+      {name:'Cauliflower', sow:'Oct–Dec', fert:'Nitrogen & boron', pest:'Cabbage looper', harvest:'Compact white curd',image:'./guide/Cauliflower.jpg'},
+      {name:'Cabbage', sow:'Winter', fert:'Urea, potassium', pest:'Diamondback moth', harvest:'Tight firm heads',image:'./guide/Cabbage.jpg'},
+      {name:'Ladyfinger (Bhindi)', sow:'Summer/Kharif', fert:'FYM + light NPK', pest:'Jassids, mites', harvest:'Tender pods',image:'./guide/Ladyfinger.jpg'},
+      {name:'Bottle Gourd', sow:'Feb–March', fert:'Compost + NPK', pest:'Fruit fly, mildew', harvest:'Soft tender gourds',image:'./guide/BottleGourd.jpg'},
+      {name:'Spinach', sow:'Winter', fert:'FYM + phosphorus', pest:'Leaf spot, damping-off', harvest:'Young green leaves',image:'./guide/Spinach.jpg'},
+      {name:'Coriander', sow:'Oct–Nov', fert:'Low NPK + organic', pest:'Aphids, wilt', harvest:'Leaves full size',image:'./guide/Coriander.jpg'},
+      {name:'Fenugreek (Methi)', sow:'Rabi (Oct)', fert:'Organic manure', pest:'Root rot', harvest:'25–30 days after sowing',image:'./guide/Fenugreek.jpg'},
+      {name:'Lentil (Masoor)', sow:'Rabi (Nov)', fert:'Low N, high P', pest:'Wilt, aphids', harvest:'Pods dry',image:'./guide/Lentil.jpg'},
+      {name:'Turmeric', sow:'June–July', fert:'Cow dung + potash', pest:'Rhizome rot', harvest:'8–9 months later',image:'./guide/Turmeric.jpg'},
+      {name:'Sorghum (Jowar)', sow:'Kharif & Rabi', fert:'Moderate NPK', pest:'Shoot fly', harvest:'Hard dough stage',image:'./guide/Sorghum(Jowar).jpg'},
+      {name:'Soybean', sow:'Kharif (June)', fert:'Rhizobium + phosphorus', pest:'Leaf spot, pod borer', harvest:'Pods turn brown',image:'./guide/Soybean.jpg'}
+    ];
+
+    const cropList = document.getElementById("cropList");
+    const nameFilter = document.getElementById("nameFilter");
+    const seasonFilter = document.getElementById("seasonFilter");
+    const paginationControls = document.getElementById("paginationControls");
+
+    let currentPage = 1;
+    const cropsPerPage = 6;
+
+    function renderCrops() {
+      const nameQuery = nameFilter.value.toLowerCase();
+      const seasonQuery = seasonFilter.value;
+
+      let filteredCrops = crops.filter(crop =>
+        crop.name.toLowerCase().includes(nameQuery) &&
+        (seasonQuery === "" || crop.season === seasonQuery)
+      );
+
+      const totalPages = Math.ceil(filteredCrops.length / cropsPerPage);
+      if (currentPage > totalPages) currentPage = 1;
+
+      const start = (currentPage - 1) * cropsPerPage;
+      const end = start + cropsPerPage;
+      const pageCrops = filteredCrops.slice(start, end);
+
+      cropList.innerHTML = pageCrops.map(crop => `
+        <div class="card">
+          <img src="${crop.image}" alt="${crop.name}" />
+          <h3>${crop.name}</h3>
+          <p><strong>Sowing:</strong> ${crop.sow}</p>
+          <p><strong>Fertilizer:</strong> ${crop.fert}</p>
+          <p><strong>Pest Control:</strong> ${crop.pest}</p>
+          <p><strong>Harvest:</strong> ${crop.harvest}</p>
+        </div>
+      `).join("");
+
+      // Pagination
+      paginationControls.innerHTML = `
+        <button ${currentPage === 1 ? "disabled" : ""} onclick="changePage(-1)">Prev</button>
+        Page ${currentPage} of ${totalPages}
+        <button ${currentPage === totalPages ? "disabled" : ""} onclick="changePage(1)">Next</button>
+      `;
+    }
+
+    function changePage(offset) {
+      currentPage += offset;
+      renderCrops();
+    }
+
+    nameFilter.addEventListener("input", () => {
+      currentPage = 1;
+      renderCrops();
+    });
+
+    seasonFilter.addEventListener("change", () => {
+      currentPage = 1;
+      renderCrops();
+    });
+
+    // Initial render
+    renderCrops();
+  </script>
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Education & Crop Guide - Kisan Sathi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f9f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header, footer {
+      background-color: #4caf50;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    main {
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      color: #2e7d32;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .filters input, .filters select {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .crop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .card h3 {
+      color: #2e7d32;
+      margin: 0.5rem 0;
+    }
+    .card p {
+      margin: 0.2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .pagination {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .pagination button {
+      margin: 0 6px;
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .video-section iframe {
+      width: 100%;
+      height: 220px;
+      border-radius: 10px;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .schemes-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .schemes-section li {
+      background: #e9f5e9;
+      margin: 0.7rem 0;
+      padding: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .schemes-section a {
+      color: #1b5e20;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    footer {
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .filters {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📘 Education & Crop Guide - Kisan Sathi</h1>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>🌾 Step-by-Step Crop Guide</h2>
+      <div class="filters">
+        <input type="text" id="nameFilter" placeholder="Search by crop name..." />
+        <select id="seasonFilter">
+          <option value="">All Seasons</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Kharif">Kharif</option>
+        </select>
+      </div>
+      <div class="crop-grid" id="cropList"></div>
+      <div class="pagination" id="paginationControls"></div>
+    </section>
+
+    <section class="video-section">
+      <h2>🎥 Farming Tutorial Videos</h2>
+      <div class="video-grid">
+        <iframe src="https://www.youtube.com/embed/6PxwFePEnNU" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/AF-jzWKMdwE" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/F4Az6C2rsic" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Ulf8E1XnhgI" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/hDTwuO9PHp8" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/qwKc13R-bMc" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section class="schemes-section">
+      <h2>🏛 Government Schemes & Subsidies</h2>
+      <ul>
+        <li><a href="https://pmkisan.gov.in/" target="_blank">PM-Kisan Samman Nidhi</a>: ₹6,000/year support to farmers</li>
+        <li><a href="https://soilhealth.dac.gov.in/" target="_blank">Soil Health Card Scheme</a>: Get your soil tested</li>
+        <li><a href="https://www.enam.gov.in/" target="_blank">eNAM</a>: Sell crops online at best prices</li>
+        <li><a href="https://pmfby.gov.in/" target="_blank">PM Fasal Bima Yojana</a>: Protect your crops with insurance</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Kisan Sathi | Empowering Farmers Digitally
+  </footer>
+
+  <script>
+    const crops = [
+      {name:'Wheat', sow:'Rabi (Nov–Dec)', fert:'Urea, DAP', pest:'Rust, Aphids', harvest:'Grains hard', image:'https://via.placeholder.com/300x180?text=Wheat'},
+      {name:'Paddy', sow:'Kharif (June–July)', fert:'Urea, Potash', pest:'Brown Hopper', harvest:'Golden-yellow', image:'https://via.placeholder.com/300x180?text=Paddy'},
+      {name:'Maize', sow:'Kharif & Rabi', fert:'Urea, NPK', pest:'Stem borer', harvest:'Full cob', image:'https://via.placeholder.com/300x180?text=Maize'},
+      {name:'Potato', sow:'Rabi', fert:'FYM, Urea', pest:'Blight', harvest:'Leaves yellow', image:'https://via.placeholder.com/300x180?text=Potato'},
+      {name:'Tomato', sow:'Oct–Nov', fert:'Organic + NPK', pest:'Fruit borer', harvest:'Red fruits', image:'https://via.placeholder.com/300x180?text=Tomato'},
+      {name:'Onion', sow:'Nov–Dec', fert:'DAP, Potash', pest:'Thrips', harvest:'Neck bent', image:'https://via.placeholder.com/300x180?text=Onion'},
+      {name:'Garlic', sow:'Oct–Nov', fert:'Phosphorus', pest:'Nematodes', harvest:'Yellow tops', image:'https://via.placeholder.com/300x180?text=Garlic'},
+      {name:'Mustard', sow:'Rabi', fert:'Low Nitrogen', pest:'Aphids', harvest:'Pods dry', image:'https://via.placeholder.com/300x180?text=Mustard'}
+    ];
+
+    const nameFilter = document.getElementById('nameFilter');
+    const seasonFilter = document.getElementById('seasonFilter');
+    const cropList = document.getElementById('cropList');
+    const paginationControls = document.getElementById('paginationControls');
+
+    let currentPage = 1;
+    const cropsPerPage = 4;
+
+    function getSeason(crop) {
+      if (crop.sow.includes('Rabi')) return 'Rabi';
+      if (crop.sow.includes('Kharif')) return 'Kharif';
+      return '';
+    }
+
+    function filterCrops() {
+      const name = nameFilter.value.toLowerCase();
+      const season = seasonFilter.value;
+      return crops.filter(crop => {
+        const matchesName = crop.name.toLowerCase().includes(name);
+        const matchesSeason = !season || getSeason(crop) === season;
+        return matchesName && matchesSeason;
+      });
+    }
+
+    function showCrops() {
+      const filtered = filterCrops();
+      const start = (currentPage - 1) * cropsPerPage;
+      const end = start + cropsPerPage;
+      const cropsToShow = filtered.slice(start, end);
+
+      cropList.innerHTML = '';
+      cropsToShow.forEach(crop => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${crop.image}" alt="${crop.name}" />
+          <h3>${crop.name}</h3>
+          <p><strong>Sowing:</strong> ${crop.sow}</p>
+          <p><strong>Fertilizer:</strong> ${crop.fert}</p>
+          <p><strong>Pest:</strong> ${crop.pest}</p>
+          <p><strong>Harvest:</strong> ${crop.harvest}</p>
+        `;
+        cropList.appendChild(card);
+      });
+
+      renderPagination(filtered.length);
+    }
+
+    function renderPagination(totalCrops) {
+      const totalPages = Math.ceil(totalCrops / cropsPerPage);
+      paginationControls.innerHTML = '';
+
+      const prevBtn = document.createElement('button');
+      prevBtn.textContent = 'Previous';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => {
+        currentPage--;
+        showCrops();
+      };
+      paginationControls.appendChild(prevBtn);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = 'Next';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => {
+        currentPage++;
+        showCrops();
+      };
+      paginationControls.appendChild(nextBtn);
+    }
+
+    nameFilter.addEventListener('input', () => {
+      currentPage = 1;
+      showCrops();
+    });
+
+    seasonFilter.addEventListener('change', () => {
+      currentPage = 1;
+      showCrops();
+    });
+
+    // Initialize
+    showCrops();
+  </script>
+</body>
+</html> -->
+
+
+
+
+
+
+<!-- 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kisan Sathi - Education & Crop Guide</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f9f4;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background-color: #4caf50;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      margin-left: 220px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100%;
+      background-color: #388e3c;
+      padding-top: 2rem;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .sidebar h2 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 0.9rem 1.2rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      border-left: 4px solid transparent;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #2e7d32;
+      border-left: 4px solid #ffffff;
+    }
+
+    main {
+      margin-left: 220px;
+      padding: 2rem 1rem;
+      max-width: 1200px;
+    }
+
+    h2 {
+      color: #2e7d32;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+
+    .filters input, .filters select {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .crop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h3 {
+      color: #2e7d32;
+      margin: 0.5rem 0;
+    }
+
+    .card p {
+      margin: 0.2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .pagination {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .pagination button {
+      margin: 0 6px;
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pagination button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .video-section iframe {
+      width: 100%;
+      height: 220px;
+      border-radius: 10px;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .schemes-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .schemes-section li {
+      background: #e9f5e9;
+      margin: 0.7rem 0;
+      padding: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .schemes-section a {
+      color: #1b5e20;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    footer {
+      background-color: #4caf50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-left: 220px;
+      font-size: 0.95rem;
+    }
+
+    /* Responsive for mobile */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 1rem;
+      }
+
+      .sidebar a {
+        padding: 0.5rem;
+        border-left: none;
+        font-size: 0.9rem;
+      }
+
+      header, footer, main {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+ <!-- Sidebar Navigation 
+<nav class="sidebar">
+  <h2>🌱 Kisan Menu</h2>
+  <a href="#crop-guide"><i>🌾</i> Crop Guide</a>
+  <a href="#farming-tutorials"><i>🎥</i> Tutorials</a>
+  <a href="#gov-schemes"><i>🏛</i> Schemes</a>
+</nav>
+
+
+  <header>
+    <h1>Kisan Sathi - Education & Crop Guide</h1>
+  </header>
+
+
+  <main>
+
+
+    <section id="crop-guide">
+      <h2>🌾 Step-by-Step Crop Guide</h2>
+      <div class="filters">
+        <input type="text" id="nameFilter" placeholder="Search by crop name..." />
+        <select id="seasonFilter">
+          <option value="">All Seasons</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Kharif">Kharif</option>
+        </select>
+      </div>
+      <div class="crop-grid" id="cropList"></div>
+      <div class="pagination" id="paginationControls"></div>
+    </section>
+
+    <section class="video-section" id="farming-tutorials">
+      <h2>🎥 Farming Tutorial Videos</h2>
+      <div class="video-row"></div>
+        <iframe src="https://www.youtube.com/embed/6PxwFePEnNU" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/AF-jzWKMdwE" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/F4Az6C2rsic" allowfullscreen></iframe>
+      </div>
+      
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/lMkPcx6ijbg" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Ulf8E1XnhgI" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/yrjVrFgoAfA" allowfullscreen></iframe>
+      </div>
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/hDTwuO9PHp8" allowfullscreen></iframe> 
+        <iframe src="https://www.youtube.com/embed/pxO-Cr3ouuQ" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/gpRFP4ZxnZs" allowfullscreen></iframe> 
+      </div>
+      
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/o0Lwn0fSmqc" allowfullscreen></iframe> 
+        <iframe src="https://www.youtube.com/embed/ECE_S2LMwBc" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Pl1zFD7aAtI" allowfullscreen></iframe> 
+      </div>
+
+      <div class="video-row">
+        <iframe src="https://www.youtube.com/embed/0US13rBCa5I" allowfullscreen></iframe> 
+        <iframe src="https://www.youtube.com/embed/Uo05345F1C8" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/PubKH1YDaZs" allowfullscreen></iframe> 
+      </div>
+
+      <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/qwKc13R-bMc" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/EKNP488UswU" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/AC_zGbmuFz0" allowfullscreen></iframe> 
+    </div>
+
+    <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/FZWxT-swtGY" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/iqNAvQsRl14" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/NjzDkySYy6Y" allowfullscreen></iframe> 
+    </div>
+
+    <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/Qkeo-OCX0Io" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/z5J-CDBpNZE" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/HbdG29Y6apU" allowfullscreen></iframe> 
+    </div>
+
+    <div class="video-row">
+      <iframe src="https://www.youtube.com/embed/9blKZSihu28" allowfullscreen></iframe> 
+      <iframe src="https://www.youtube.com/embed/ZA8nkyKvZdw" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/2CGq_DROO0c" allowfullscreen></iframe> 
+    </div>
+    </section>
+
+    <section class="schemes-section" id="gov-schemes">
+      <h2>🏛 Government Schemes & Subsidies</h2>
+      <ul>
+        <li><a href="https://pmkisan.gov.in/" target="_blank">PM-Kisan Samman Nidhi</a>: ₹6,000/year direct support to farmers</li>
+        <li><a href="https://soilhealth.dac.gov.in/" target="_blank">Soil Health Card Scheme</a>: Know your soil health</li>
+        <li><a href="https://www.enam.gov.in/" target="_blank">eNAM</a>: Online crop selling platform</li>
+        <li><a href="https://pmfby.gov.in/" target="_blank">PM Fasal Bima Yojana</a>: Crop insurance and risk coverage</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Kisan Sathi | Empowering Farmers Digitally
+  </footer>
+
+
+  <script>
+    
+
+    const crops = [
+      {name:'Wheat', sow:'Rabi (Nov–Dec)', fert:'Urea & DAP; 2–4 irrigations', pest:'Rust, aphids — use Mancozeb & Neem Spray', harvest:'Grains hard & moisture < 20%', image: './images/Wheat.jpg'},
+      {name:'Paddy', sow:'Kharif (June–July)', fert:'Urea, Potash; standing water required', pest:'Brown Plant Hopper — Chlorpyrifos', harvest:'Golden-yellow stage',image: './images/paddy.jpg'},
+      {name:'Maize', sow:'Kharif & Rabi', fert:'Urea, NPK; moderate watering', pest:'Stem borers — Neem oil spray', harvest:'Cobs fully developed',image: './images/maize.jpg'},
+      {name:'Sugarcane', sow:'Feb–March & Sep–Oct', fert:'High NPK + micronutrients', pest:'Borers, white grub', harvest:'10–12 months after planting',image: './guide/sugarcane.jpg'},
+      {name:'Potato', sow:'Rabi (Oct–Nov)', fert:'FYM + Urea; water every 10 days', pest:'Blight — Mancozeb spray', harvest:'Leaves yellow',image: './images/Potato.jpg'},
+      {name:'Tomato', sow:'Oct–Nov or Feb–March', fert:'Organic + NPK; regular water', pest:'Leaf curl, fruit borer', harvest:'Red ripe fruits',image: './guide/tomato.jpg'},
+      {name:'Onion', sow:'Nov–Dec', fert:'DAP, Potash, organic manure', pest:'Thrips, fungal rot', harvest:'Neck bent stage',image: './images/Onion.jpg'},
+      {name:'Garlic', sow:'Oct–Nov', fert:'Phosphorus rich manure', pest:'Nematodes, rot fungi', harvest:'Yellowing tops',image:'./guide/garlic.jpg'},
+      {name:'Peas', sow:'Rabi (Nov)', fert:'Organic + minimal Urea', pest:'Aphids, powdery mildew', harvest:'Green pods mature',image:'./guide/peas.jpg'},
+      {name:'Mustard', sow:'Rabi (Oct–Nov)', fert:'Low nitrogen, more potassium', pest:'Aphids, blight', harvest:'Pods yellow & dry',image:'./guide/Mustard.jpg'},
+      {name:'Barley', sow:'Rabi (Nov)', fert:'Minimal NPK', pest:'Rust, smut', harvest:'Hard dough stage',image:'./guide/barley.jpg'},
+      {name:'Chickpea (Gram)', sow:'Rabi (Oct)', fert:'Phosphorus rich + Rhizobium', pest:'Pod borer, wilt', harvest:'Pods turn brown',image:'./guide/chickpea.jpg'},
+      {name:'Brinjal', sow:'Summer & Rainy', fert:'NPK + FYM', pest:'Shoot borer, whiteflies', harvest:'Bright purple fruits',image:'./guide/brinjal.jpeg'},
+      {name:'Cauliflower', sow:'Oct–Dec', fert:'Nitrogen & boron', pest:'Cabbage looper', harvest:'Compact white curd',image:'./guide/Cauliflower.jpg'},
+      {name:'Cabbage', sow:'Winter', fert:'Urea, potassium', pest:'Diamondback moth', harvest:'Tight firm heads',image:'./guide/Cabbage.jpg'},
+      {name:'Ladyfinger (Bhindi)', sow:'Summer/Kharif', fert:'FYM + light NPK', pest:'Jassids, mites', harvest:'Tender pods',image:'./guide/Ladyfinger.jpg'},
+      {name:'Bottle Gourd', sow:'Feb–March', fert:'Compost + NPK', pest:'Fruit fly, mildew', harvest:'Soft tender gourds',image:'./guide/BottleGourd.jpg'},
+      {name:'Spinach', sow:'Winter', fert:'FYM + phosphorus', pest:'Leaf spot, damping-off', harvest:'Young green leaves',image:'./guide/Spinach.jpg'},
+      {name:'Coriander', sow:'Oct–Nov', fert:'Low NPK + organic', pest:'Aphids, wilt', harvest:'Leaves full size',image:'./guide/Coriander.jpg'},
+      {name:'Fenugreek (Methi)', sow:'Rabi (Oct)', fert:'Organic manure', pest:'Root rot', harvest:'25–30 days after sowing',image:'./guide/Fenugreek.jpg'},
+      {name:'Lentil (Masoor)', sow:'Rabi (Nov)', fert:'Low N, high P', pest:'Wilt, aphids', harvest:'Pods dry',image:'./guide/Lentil.jpg'},
+      {name:'Turmeric', sow:'June–July', fert:'Cow dung + potash', pest:'Rhizome rot', harvest:'8–9 months later',image:'./guide/Turmeric.jpg'},
+      {name:'Sorghum (Jowar)', sow:'Kharif & Rabi', fert:'Moderate NPK', pest:'Shoot fly', harvest:'Hard dough stage',image:'./guide/Sorghum(Jowar).jpg'},
+      {name:'Soybean', sow:'Kharif (June)', fert:'Rhizobium + phosphorus', pest:'Leaf spot, pod borer', harvest:'Pods turn brown',image:'./guide/Soybean.jpg'}
+    ];
+   
+
+
+    const nameFilter = document.getElementById('nameFilter');
+    const seasonFilter = document.getElementById('seasonFilter');
+    const cropList = document.getElementById('cropList');
+    const paginationControls = document.getElementById('paginationControls');
+
+    let currentPage = 1;
+    const cropsPerPage = 4;
+
+    function getSeason(crop) {
+      if (crop.sow.includes('Rabi')) return 'Rabi';
+      if (crop.sow.includes('Kharif')) return 'Kharif';
+      return '';
+    }
+
+    function filterCrops() {
+      const name = nameFilter.value.toLowerCase();
+      const season = seasonFilter.value;
+      return crops.filter(crop => {
+        const matchesName = crop.name.toLowerCase().includes(name);
+        const matchesSeason = !season || getSeason(crop) === season;
+        return matchesName && matchesSeason;
+      });
+    }
+
+    function showCrops() {
+      const filtered = filterCrops();
+      const start = (currentPage - 1) * cropsPerPage;
+      const end = start + cropsPerPage;
+      const cropsToShow = filtered.slice(start, end);
+
+      cropList.innerHTML = '';
+      cropsToShow.forEach(crop => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${crop.image}" alt="${crop.name}" />
+          <h3>${crop.name}</h3>
+          <p><strong>Sowing:</strong> ${crop.sow}</p>
+          <p><strong>Fertilizer:</strong> ${crop.fert}</p>
+          <p><strong>Pest:</strong> ${crop.pest}</p>
+          <p><strong>Harvest:</strong> ${crop.harvest}</p>
+        `;
+        cropList.appendChild(card);
+      });
+
+      renderPagination(filtered.length);
+    }
+
+    function renderPagination(totalCrops) {
+      const totalPages = Math.ceil(totalCrops / cropsPerPage);
+      paginationControls.innerHTML = '';
+
+      const prevBtn = document.createElement('button');
+      prevBtn.textContent = 'Previous';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => {
+        currentPage--;
+        showCrops();
+      };
+      paginationControls.appendChild(prevBtn);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = 'Next';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => {
+        currentPage++;
+        showCrops();
+      };
+      paginationControls.appendChild(nextBtn);
+    }
+
+    nameFilter.addEventListener('input', () => {
+      currentPage = 1;
+      showCrops();
+    });
+
+    seasonFilter.addEventListener('change', () => {
+      currentPage = 1;
+      showCrops();
+    });
+
+    // Initialize
+    showCrops();
+  </script>
+</body>
+</html> -->

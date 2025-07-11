@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Organic vs Chemical | Kisan Sathi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background: #2e8b57;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+    nav ul li {
+      margin: 0 10px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 1rem;
+    }
+    h2, h3, h4 {
+      color: #2e8b57;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    th {
+      background-color: #2e8b57;
+      color: white;
+    }
+    ul {
+      margin-left: 1rem;
+      line-height: 1.6;
+    }
+    canvas {
+      margin-top: 2rem;
+    }
+    .highlight-box {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-left: 4px solid #2e8b57;
+      margin-top: 1.5rem;
+    }
+    a {
+      color: #2e8b57;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Kisan Sathi — Organic vs Chemical Farming</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="crop-planner.html">🗓️ Crop Planner</a></li>
+        <li><a href="weather.html">🌦️ Weather</a></li>
+        <li><a href="market-price.html">💹 Market Prices</a></li>
+        <li><a href="education.html">📚 Education Hub</a></li>
+        <li><a href="chat.html" class="active">💬 Chat</a></li>
+        <li><a href="store.html">🛒 Agri Store</a></li>
+        <li><a href="comparison.html">⚖️ Organic vs Chemical</a></li>
+        <li><a href="loan-calculator.html">💰 Loan Calculator</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>What is Organic vs Chemical Farming?</h2>
+      <p>Organic farming uses natural fertilizers like compost and green manure, while chemical farming uses synthetic inputs such as urea and pesticides for faster growth. This page compares both for better decision-making.</p>
+    </section>
+
+    <section>
+      <h3>Comparison Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Organic Farming</th>
+            <th>Chemical Farming</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fertilizers</td>
+            <td>Compost, Green Manure</td>
+            <td>Urea, DAP, NPK</td>
+          </tr>
+          <tr>
+            <td>Yield</td>
+            <td>Moderate but Sustainable</td>
+            <td>High but Depletes Soil</td>
+          </tr>
+          <tr>
+            <td>Soil Health</td>
+            <td>Improves Soil Structure</td>
+            <td>Degrades Over Time</td>
+          </tr>
+          <tr>
+            <td>Cost</td>
+            <td>Low Input Cost</td>
+            <td>High Input Cost</td>
+          </tr>
+          <tr>
+            <td>Environmental Impact</td>
+            <td>Eco-Friendly</td>
+            <td>Risk of Pollution</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Visual Comparison</h3>
+      <canvas id="compareChart" width="400" height="200"></canvas>
+    </section>
+
+    <section>
+      <h3>Benefits of Organic Farming</h3>
+      <ul>
+        <li>Enhances soil fertility naturally</li>
+        <li>Reduces pollution and promotes biodiversity</li>
+        <li>Produces healthier food</li>
+        <li>Less dependency on external chemicals</li>
+        <li>Supported by various government subsidies</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Risks of Chemical Farming</h3>
+      <ul>
+        <li>Overuse leads to soil infertility</li>
+        <li>Pollutes nearby water bodies and environment</li>
+        <li>Creates pesticide-resistant pests</li>
+        <li>Increases input cost burden on small farmers</li>
+        <li>Leaves chemical residue in food</li>
+      </ul>
+    </section>
+
+    <div class="highlight-box">
+      <h4>Want to switch to Organic Farming?</h4>
+      <p>Explore our <a href="education.html">Education Hub</a> or connect with a nearby Krishi Vigyan Kendra (KVK).</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Kisan Sathi. Empowering Farmers with Technology.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('compareChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Yield', 'Cost', 'Soil Health', 'Sustainability'],
+        datasets: [
+          {
+            label: 'Organic',
+            data: [3, 2, 5, 5],
+            backgroundColor: 'green'
+          },
+          {
+            label: 'Chemical',
+            data: [5, 4, 2, 2],
+            backgroundColor: 'red'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Organic vs Chemical Farming Comparison'
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
